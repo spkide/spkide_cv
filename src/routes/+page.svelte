@@ -49,16 +49,36 @@ Linux · Security · Underground
 Type: help
 `,
     help: `
-home | skills | projects | contact
+home | skills | abilities | projects | contact
 about | neofetch | whoami
 matrix | snow on/off
 fortune | hack | spkide
 clear | exit
 `,
     skills: `
-Linux · Bash · C/C++
-Pentesting · Docker
-Svelte · Proxmox
+💻 Programming & Development:
+  - C/C++, Python, JavaScript
+  - Svelte, Node.js, Bash scripting
+  - Docker, Proxmox
+
+🛡 Security & Networking:
+  - Pentesting, Wireshark, Nmap
+  - Linux hardening
+  - SSH, VPNs
+
+⚙ Tools & Systems:
+  - Linux administration
+  - Git, GitHub, GitLab
+  - CI/CD pipelines
+`,
+    abilities: `
+🚀 Abilities:
+  - Reverse engineering
+  - Exploit development
+  - System automation
+  - Terminal wizardry
+  - Ethical hacking
+  - Creative coding
 `,
     projects: `
 terminal-portfolio
@@ -127,6 +147,7 @@ github.com/spkide
     if (cmd === "help") return push(cmd, sections.help);
     if (cmd === "home") return push(cmd, sections.home);
     if (cmd === "skills") return push(cmd, sections.skills);
+    if (cmd === "abilities") return push(cmd, sections.abilities);
     if (cmd === "projects") return push(cmd, sections.projects);
     if (cmd === "contact") return push(cmd, sections.contact);
 
@@ -251,16 +272,24 @@ Theme: hacker
     min-height: 100vh;
     position: relative;
     z-index: 2;
+    gap: 10px;
+    padding: 10px;
   }
 
   .terminal {
-    max-width: 900px;
+    max-width: 100%;
     margin: auto;
     padding: 1rem;
     border: 1px solid #00ff9c55;
     box-shadow: 0 0 40px #00ff9c33;
     background: black;
     white-space: pre-wrap;
+    color: #00ff9c;
+    min-height: 80vh;
+  }
+
+  .terminal div {
+    color: #00ff9c;
   }
 
   input {
@@ -269,12 +298,14 @@ Theme: hacker
     color: #00ff9c;
     outline: none;
     width: 80%;
+    font-size: 1rem;
   }
 
   .panel {
     border-left: 1px solid #00ff9c33;
     padding: 1rem;
     font-size: 0.85rem;
+    color: #00ff9c;
   }
 
   .shutdown {
@@ -285,6 +316,29 @@ Theme: hacker
     display: grid;
     place-items: center;
     z-index: 50;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+    .panel {
+      border-left: none;
+      border-top: 1px solid #00ff9c33;
+      font-size: 0.8rem;
+    }
+    input {
+      width: 100%;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .terminal {
+      font-size: 0.8rem;
+      min-height: 70vh;
+    }
   }
 </style>
 
