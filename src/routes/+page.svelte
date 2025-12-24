@@ -2,6 +2,13 @@
   export const ssr = false;
 </script>
 
+<svelte:head>
+  <title>SPKIDE :: terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+</svelte:head>
+
 <script>
   import { onMount } from "svelte";
 
@@ -18,11 +25,9 @@
   let inputEl;
   const focus = () => setTimeout(() => inputEl?.focus(), 0);
 
-  /* 🔊 AUDIO */
   let keySound;
   let beepSound;
 
-  /* TEXT */
   const intro = "booting spkide@linux [OK]";
   const motd = `
 🎄 FELIZ NAVIDAD 🎄
@@ -47,7 +52,7 @@ Type: help
 home | skills | projects | contact
 about | neofetch | whoami
 matrix | snow on/off
-fortune | hack
+fortune | hack | spkide
 clear | exit
 `,
     skills: `
@@ -172,7 +177,12 @@ Theme: hacker
 
     if (cmd === "spkide") {
       glitch = true;
-      return push(cmd, "You were never supposed to type this.");
+      beepSound.play();
+      return push(cmd, `
+“No deberías estar aquí”
+“El sistema existe antes que tú”
+“SPKIDE no se presenta, se descubre”
+`);
     }
 
     push(cmd, `command not found: ${cmd}`);
@@ -180,9 +190,10 @@ Theme: hacker
 </script>
 
 <style>
-  :global(body) {
-    background: black;
-    color: #00ff9c;
+  :global(html), :global(body) {
+    margin: 0;
+    padding: 0;
+    background: black !important;
     font-family: "JetBrains Mono", monospace;
     overflow: hidden;
   }
@@ -198,6 +209,18 @@ Theme: hacker
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  .crt::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.04),
+      rgba(0,0,0,0.04) 2px
+    );
+    pointer-events: none;
+  }
 
   .matrix {
     position: fixed;
@@ -274,9 +297,7 @@ Theme: hacker
 {#if snow}
   <div class="snow">
     {#each Array.from({ length: 80 }) as _, i}
-      <span
-        style="left:{Math.random()*100}%;animation-duration:{5+Math.random()*5}s"
-      >❄</span>
+      <span style="left:{Math.random()*100}%;animation-duration:{5+Math.random()*5}s">❄</span>
     {/each}
   </div>
 {/if}
@@ -285,7 +306,7 @@ Theme: hacker
   <div class="shutdown">SYSTEM HALTED</div>
 {/if}
 
-<div class="layout">
+<div class="layout crt">
   <div class="terminal">
     <div>spkide@linux:~$ {typed}</div>
 
@@ -315,6 +336,7 @@ Theme: hacker
     snow on/off<br/>
     fortune<br/>
     hack<br/>
+    spkide<br/>
     clear · exit
   </aside>
 </div>
